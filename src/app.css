@@ -1,11 +1,10 @@
 @import 'tailwindcss';
 @plugin "daisyui" {
-    themes: dark --default;
-  }
+  themes: dark --default;
+}
 @plugin 'tailwindcss-motion';
 
-
 * {
-	scrollbar-width: none;
-	scrollbar-color: oklch(var(--s)) oklch(var(--p)) !important;
+  scrollbar-width: none;
+  scrollbar-color: oklch(var(--s)) oklch(var(--p)) !important;
 }

@@ -1,66 +1,65 @@
 <script lang="ts">
-  import { page } from "$app/state";
-  import { goto } from "$app/navigation";
-  import { onMount } from "svelte";
-  let app = page.params.app;
-  import Bmi from "./bmi.svelte";
-  import Compress from "./compress.svelte";
-  import Note from "./note.svelte";
-  import Currency from "./currency.svelte";
-  import Calculator from "./calculator.svelte";
-  import ClickSpeed from "./clickspeed.svelte";
-  import Encrypt from "./encrypt.svelte";
-  import Randomize from "./randomize.svelte";
-  import ColorPicker from "./colorpicker.svelte";
-  import Password from "./password.svelte";
+  import { page } from '$app/state'
+  import { goto } from '$app/navigation'
+  import { onMount } from 'svelte'
+  let app = page.params.app
+  import Bmi from './bmi.svelte'
+  import Compress from './compress.svelte'
+  import Note from './note.svelte'
+  import Currency from './currency.svelte'
+  import Calculator from './calculator.svelte'
+  import ClickSpeed from './clickspeed.svelte'
+  import Encrypt from './encrypt.svelte'
+  import Randomize from './randomize.svelte'
+  import ColorPicker from './colorpicker.svelte'
+  import Password from './password.svelte'
 
   onMount(() => {
     if (
       ![
-        "bmi",
-        "colorpicker",
-        "note",
-        "randomize",
-        "todo",
-        "clickspeed",
-        "compress",
-        "currency",
-        "calculator",
-        "qrcode",
-        "expense",
-        "encrypt",
-        "password"
+        'bmi',
+        'colorpicker',
+        'note',
+        'randomize',
+        'todo',
+        'clickspeed',
+        'compress',
+        'currency',
+        'calculator',
+        'qrcode',
+        'expense',
+        'encrypt',
+        'password'
       ].includes(app)
     ) {
-      goto("/errors/404");
+      goto('/errors/404')
     }
-  });
+  })
 </script>
 
-{#if app == "bmi"}
+{#if app == 'bmi'}
   <Bmi />
-{:else if app == "note"}
+{:else if app == 'note'}
   <Note />
-{:else if app == "password"}
+{:else if app == 'password'}
   <Password />
-{:else}
-{:else if app == "compress"}
+{:else if app == 'compress'}
   <Compress />
-{:else if app == "encrypt"}
+{:else if app == 'encrypt'}
   <Encrypt />
-{:else if app=="colorpicker"}
+{:else if app == 'colorpicker'}
   <ColorPicker />
-{:else if app == "clickspeed"}
+{:else if app == 'clickspeed'}
   <ClickSpeed />
-{:else if app == "randomize"}
+{:else if app == 'randomize'}
   <Randomize />
-{:else if app == "currency"}
+{:else if app == 'currency'}
   <Currency />
-{:else if app == "calculator"}
+{:else if app == 'calculator'}
   <Calculator />
-{:else if app == "todo"}
-  <Todo/>
-{:else if app == "qrcode"}
+{:else if app == 'todo'}
+  <Todo />
+{:else if app == 'qrcode'}
   <div class="flex flex-col items-center justify-center flex-grow">
     <div class="text-7xl font-bold text-warning">
       <svg
@@ -84,7 +83,7 @@
     </div>
     <a href="/apps" class="btn btn-outline btn-warning mt-6">Back to Apps</a>
   </div>
-{:else if app == "expense"}
+{:else if app == 'expense'}
   <div class="flex flex-col items-center justify-center flex-grow">
     <div class="text-7xl font-bold text-warning">
       <svg

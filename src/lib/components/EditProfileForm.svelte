@@ -1,35 +1,38 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
-  import { getAuth, updateProfile } from "firebase/auth";
-  export let username: string = "";
-  export let photoURL: string = "";
-  export let currentUser: any = null;
+  import { createEventDispatcher } from 'svelte'
+  import { getAuth, updateProfile } from 'firebase/auth'
+  export let username: string = ''
+  export let photoURL: string = ''
+  export let currentUser: any = null
 
-  let localUsername = username;
-  let localPhotoURL = photoURL;
-  let errorMessage = "";
-  let saveMessage = "";
+  let localUsername = username
+  let localPhotoURL = photoURL
+  let errorMessage = ''
+  let saveMessage = ''
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher()
 
   const handleSave = async () => {
-    errorMessage = "";
-    saveMessage = "";
+    errorMessage = ''
+    saveMessage = ''
     if (!localUsername.trim()) {
-      errorMessage = "Username is required.";
-      return;
+      errorMessage = 'Username is required.'
+      return
     }
     try {
-      const auth = getAuth();
+      const auth = getAuth()
       if (auth.currentUser) {
-        await updateProfile(auth.currentUser, { displayName: localUsername, photoURL: localPhotoURL });
+        await updateProfile(auth.currentUser, {
+          displayName: localUsername,
+          photoURL: localPhotoURL
+        })
       }
-      saveMessage = "Profile updated!";
-      dispatch("saved", { username: localUsername, photoURL: localPhotoURL });
+      saveMessage = 'Profile updated!'
+      dispatch('saved', { username: localUsername, photoURL: localPhotoURL })
     } catch (error) {
-      errorMessage = "Failed to update profile.";
+      errorMessage = 'Failed to update profile.'
     }
-  };
+  }
 </script>
 
 {#if errorMessage}
@@ -62,7 +65,11 @@
     />
     {#if localPhotoURL}
       <div class="mt-2 flex justify-center">
-        <img src={localPhotoURL} alt="Avatar Preview" class="w-20 h-20 rounded-full border" />
+        <img
+          src={localPhotoURL}
+          alt="Avatar Preview"
+          class="w-20 h-20 rounded-full border"
+        />
       </div>
     {/if}
   </div>

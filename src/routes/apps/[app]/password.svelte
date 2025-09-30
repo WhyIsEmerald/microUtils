@@ -1,25 +1,22 @@
 <script lang="ts">
-  import {generatePassword} from "$lib/scripts/passwordGenerator"
-  let password = "";
-  let passwordLength = 10;
-  let passwordStrength = 10;
+  import { generatePassword } from '$lib/scripts/passwordGenerator'
+  let password = ''
+  let passwordLength = 10
+  let passwordStrength = 10
   let passwordOptions = {
     hasNumbers: false,
     hasSymbols: false,
     upperCase: false,
-    lowerCase: false,
-  };
-  let error = "";
-
+    lowerCase: false
+  }
+  let error = ''
 </script>
 
 <div class="hero bg-base-200 flex-grow">
   <div class="hero-content text-center">
     <div class="max-w-md">
       <h1 class="text-5xl font-bold">Password Manager</h1>
-      <p class="py-6">
-        Generate a secure, random password.
-      </p>
+      <p class="py-6">Generate a secure, random password.</p>
       <div class="card card-dash bg-base-100 w-full">
         <div class="card-body">
           <h2 class="card-title">
@@ -92,7 +89,7 @@
                 class="toggle toggle-secondary ml-auto"
               />
             </div>
-            <div class="flex ">
+            <div class="flex">
               Symbols
               <input
                 type="checkbox"
@@ -105,28 +102,24 @@
             <button
               class="btn btn-primary w-full"
               on:click={() => {
-                error = "";
-                password = "";
-                try{
-                password = generatePassword(
-                  passwordLength,
-                  passwordOptions
-                )
-                }catch(e){
+                error = ''
+                password = ''
+                try {
+                  password = generatePassword(passwordLength, passwordOptions)
+                } catch (e) {
                   error = e.message
                 }
-                passwordStrength = password.length;
+                passwordStrength = password.length
               }}>Generate</button
             >
           </div>
-          {#if error != ""}
-          <div class="alert alert-error shadow-lg w-full">
-            <div class="flex flex-row items-center">
-              <span>{error}</span>
+          {#if error != ''}
+            <div class="alert alert-error shadow-lg w-full">
+              <div class="flex flex-row items-center">
+                <span>{error}</span>
+              </div>
             </div>
-          </div>
           {/if}
-
         </div>
       </div>
     </div>

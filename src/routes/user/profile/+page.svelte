@@ -1,30 +1,30 @@
 <script lang="ts">
-  import { user } from "$lib/stores/firebase/auth";
-  import type { User } from "firebase/auth";
-  import EditProfileForm from "$lib/components/EditProfileForm.svelte";
-  import DeleteAccountModal from "$lib/components/DeleteAccountModal.svelte";
-  import { emailAuth } from "$lib/stores/firebase/auth";
-  let signedOutMessage = "";
-  let currentUser: User | null = null;
-  let username = "";
-  let photoURL = "";
-  let showDeleteModal = false;
+  import { user } from '$lib/stores/firebase/auth'
+  import type { User } from 'firebase/auth'
+  import EditProfileForm from '$lib/components/EditProfileForm.svelte'
+  import DeleteAccountModal from '$lib/components/DeleteAccountModal.svelte'
+  import { emailAuth } from '$lib/stores/firebase/auth'
+  let signedOutMessage = ''
+  let currentUser: User | null = null
+  let username = ''
+  let photoURL = ''
+  let showDeleteModal = false
 
   // Subscribe to user store for automatic updates
-  $: unsubscribe = user.subscribe((value) => {
-    currentUser = value;
-    username = currentUser?.displayName || "";
-    photoURL = currentUser?.photoURL || "";
-  });
+  $: unsubscribe = user.subscribe(value => {
+    currentUser = value
+    username = currentUser?.displayName || ''
+    photoURL = currentUser?.photoURL || ''
+  })
 
   const handleSignOut = async () => {
     try {
-      await emailAuth.signOut();
-      signedOutMessage = "You have been signed out.";
+      await emailAuth.signOut()
+      signedOutMessage = 'You have been signed out.'
     } catch (error) {
-      signedOutMessage = "Sign out failed. Please try again.";
+      signedOutMessage = 'Sign out failed. Please try again.'
     }
-  };
+  }
 </script>
 
 {#if currentUser}
@@ -35,7 +35,9 @@
       {username}
       {photoURL}
       {currentUser}
-      on:saved={() => {/* Optionally show a toast or reload user info */}}
+      on:saved={() => {
+        /* Optionally show a toast or reload user info */
+      }}
     />
     <div class="divider divider-error mt-8 mb-4"></div>
     <h2 class="card-title text-xl font-bold mb-2">Danger Zone</h2>
@@ -51,7 +53,7 @@
     {currentUser}
     on:cancel={() => (showDeleteModal = false)}
     on:deleted={() => {
-      showDeleteModal = false;
+      showDeleteModal = false
       // Optionally show a message or redirect
     }}
   />
