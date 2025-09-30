@@ -4,18 +4,25 @@ export async function load() {
   const log = execSync(
     'git log --first-parent --pretty=format:"%h %ad %s" --date=short',
   ).toString();
-  const messageCounts = new Map<string, number>();
   const commits = log.split("\n").map((line) => {
+    const [hash, date, ...messageArr] = line.split(" ");
+    const message = messageArr.join(" ");
+    return { hash, date, message, isMerge: false };
+  });
+
+  commits.reverse();
+
+  const messageCounts = new Map<string, number>();
+  const processedCommits = commits.map((commit) => {
     const exceptions: Record<string, string> = {
       "180894a": "Merged frontend",
     };
 
-    const [hash, date, ...messageArr] = line.split(" ");
-    let message = messageArr.join(" ");
+    let message = commit.message;
     let isMerge = false;
 
-    if (exceptions[hash]) {
-      message = exceptions[hash];
+    if (exceptions[commit.hash]) {
+      message = exceptions[commit.hash];
       isMerge = true;
     } else if (message.startsWith("Merge pull request #")) {
       isMerge = true;
@@ -34,10 +41,12 @@ export async function load() {
       message = `${message} #${count + 1}`;
     }
 
-    return { hash, date, message, isMerge };
+    return { ...commit, message, isMerge };
   });
 
+  processedCommits.reverse();
+
   return {
-    commits,
+    commits: processedCommits,
   };
 }
