@@ -1,40 +1,40 @@
 <script>
-  import { user } from "$lib/stores/firebase/auth";
-  import { getUserNote, saveUserNote } from "$lib/stores/firebase/db";
-  import { onMount } from "svelte";
-  let data = "";
-  let saveStatus = "";
-  let notSignedIn = true;
+  import { user } from '$lib/stores/firebase/auth'
+  import { getUserNote, saveUserNote } from '$lib/stores/firebase/db'
+  import { onMount } from 'svelte'
+  let data = ''
+  let saveStatus = ''
+  let notSignedIn = true
 
-  const MAX_NOTE_CHARS = 5120; // 10,240 bytes / 2 bytes per UTF-16 char ≈ 10 KB
+  const MAX_NOTE_CHARS = 5120 // 10,240 bytes / 2 bytes per UTF-16 char ≈ 10 KB
 
-  $: currentUser = $user;
-  $: notSignedIn = !currentUser;
+  $: currentUser = $user
+  $: notSignedIn = !currentUser
 
   // Fetch note whenever currentUser changes and is not null
   $: if (currentUser) {
     getUserNote(currentUser.uid).then(previousNote => {
       if (previousNote) {
-        data = previousNote.content;
+        data = previousNote.content
       }
-    });
+    })
   }
 
   async function saveNote() {
     if (data.length > MAX_NOTE_CHARS) {
-      saveStatus = "too_large";
-      return;
+      saveStatus = 'too_large'
+      return
     }
     if (currentUser) {
       try {
-        await saveUserNote(currentUser.uid, data);
-        saveStatus = "success";
+        await saveUserNote(currentUser.uid, data)
+        saveStatus = 'success'
       } catch (error) {
-        console.error("Error saving note:", error);
-        saveStatus = "error";
+        console.error('Error saving note:', error)
+        saveStatus = 'error'
       }
     } else {
-      saveStatus = "error";
+      saveStatus = 'error'
     }
   }
 </script>
@@ -54,17 +54,18 @@
     <button class="btn btn-primary mt-4" on:click={saveNote}>
       Save Note
     </button>
-    {#if saveStatus === "success"}
+    {#if saveStatus === 'success'}
       <div class="alert alert-success" style="text-align: center;">
         Note saved successfully!
       </div>
-    {:else if saveStatus === "error"}
+    {:else if saveStatus === 'error'}
       <div class="alert alert-error" style="text-align: center;">
         Failed to save note. Please try again.
       </div>
-    {:else if saveStatus === "too_large"}
+    {:else if saveStatus === 'too_large'}
       <div class="alert alert-error" style="text-align: center;">
-        Note is too large (max 10 KB ≈ 5,120 characters). Please shorten your note.
+        Note is too large (max 10 KB ≈ 5,120 characters). Please shorten your
+        note.
       </div>
     {/if}
   {/if}

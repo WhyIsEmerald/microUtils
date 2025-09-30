@@ -1,56 +1,56 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
-  import { emailAuth } from "$lib/stores/firebase/auth";
-  import { getAuth, deleteUser } from "firebase/auth";
-  import { getFirestore, doc, deleteDoc } from "firebase/firestore";
-  import { get } from "svelte/store";
-  import { firebaseStore } from "$lib/stores/firebase/firebase";
-  export let show = false;
-  export let currentUser: any = null;
+  import { createEventDispatcher } from 'svelte'
+  import { emailAuth } from '$lib/stores/firebase/auth'
+  import { getAuth, deleteUser } from 'firebase/auth'
+  import { getFirestore, doc, deleteDoc } from 'firebase/firestore'
+  import { get } from 'svelte/store'
+  import { firebaseStore } from '$lib/stores/firebase/firebase'
+  export let show = false
+  export let currentUser: any = null
 
-  let confirmEmail = "";
-  let confirmPassword = "";
-  let confirmError = "";
-  let deleteMessage = "";
-  let showPassword = false;
+  let confirmEmail = ''
+  let confirmPassword = ''
+  let confirmError = ''
+  let deleteMessage = ''
+  let showPassword = false
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher()
 
   const handleConfirm = async () => {
-    confirmError = "";
-    deleteMessage = "";
+    confirmError = ''
+    deleteMessage = ''
     if (!confirmEmail || !confirmPassword) {
-      confirmError = "Please enter your email and password.";
-      return;
+      confirmError = 'Please enter your email and password.'
+      return
     }
     try {
-      const auth = getAuth();
+      const auth = getAuth()
       if (!auth.currentUser) {
-        confirmError = "No authenticated user.";
-        return;
+        confirmError = 'No authenticated user.'
+        return
       }
       await emailAuth.reauthenticate(
         auth.currentUser,
         confirmEmail,
         confirmPassword
-      );
-      const uid = auth.currentUser.uid;
-      const db = getFirestore(get(firebaseStore).app);
+      )
+      const uid = auth.currentUser.uid
+      const db = getFirestore(get(firebaseStore).app)
 
       // Delete all associated user data from Firestore before deleting the user account.
-      await deleteDoc(doc(db, 'users', uid, 'note', 'data'));
-      await deleteDoc(doc(db, 'users', uid, 'todo', 'data'));
-      await deleteDoc(doc(db, 'users', uid));
+      await deleteDoc(doc(db, 'users', uid, 'note', 'data'))
+      await deleteDoc(doc(db, 'users', uid, 'todo', 'data'))
+      await deleteDoc(doc(db, 'users', uid))
 
-      await deleteUser(auth.currentUser);
-      deleteMessage = "Your account has been deleted.";
-      dispatch("deleted");
+      await deleteUser(auth.currentUser)
+      deleteMessage = 'Your account has been deleted.'
+      dispatch('deleted')
     } catch (error: any) {
       confirmError =
         error?.message ||
-        "Failed to delete account. Please check your credentials.";
+        'Failed to delete account. Please check your credentials.'
     }
-  };
+  }
 </script>
 
 {#if show}
@@ -79,17 +79,17 @@
         </label>
         <div class="relative">
           <input
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             class="input input-bordered w-full pr-10"
             bind:value={confirmPassword}
             placeholder="Enter your password"
           />
           <button
             type="button"
-            class="absolute right-2 top-1/2 -translate-y-1/2  btn-xs btn-ghost"
+            class="absolute right-2 top-1/2 -translate-y-1/2 btn-xs btn-ghost"
             tabindex="-1"
             on:click={() => (showPassword = !showPassword)}
-            aria-label={showPassword ? "Hide password" : "Show password"}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
             {#if showPassword}
               <!-- Visible icon -->
@@ -130,7 +130,7 @@
         </div>
       {/if}
       <div class="modal-action">
-        <button class="btn" on:click={() => dispatch("cancel")}>
+        <button class="btn" on:click={() => dispatch('cancel')}>
           Cancel
         </button>
         <button class="btn btn-error" on:click={handleConfirm}>

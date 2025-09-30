@@ -1,26 +1,25 @@
 <script lang="ts">
-  export let inputFile: File | null = null;
-  export let type = "";
-  export let password = "";
-  let temp: File | null = null;
-  let showPassword = false;
-
+  export let inputFile: File | null = null
+  export let type = ''
+  export let password = ''
+  let temp: File | null = null
+  let showPassword = false
 
   function handleSubmit(event: Event) {
-    event.preventDefault();
-    inputFile = temp;
+    event.preventDefault()
+    inputFile = temp
   }
 
   function handleFileChange(e: Event) {
-    const files = (e.target as HTMLInputElement).files;
-    temp = files && files.length > 0 ? files[0] : null;
+    const files = (e.target as HTMLInputElement).files
+    temp = files && files.length > 0 ? files[0] : null
   }
 </script>
 
 <div class="hero h-max flex-grow">
   <div class="hero-content text-center">
     <div class="max-w-md">
-      <h1 class="text-5xl font-bold">File {type + "or"}</h1>
+      <h1 class="text-5xl font-bold">File {type + 'or'}</h1>
       <p class="py-6">{type} your files quickly and easily.</p>
       <p class="py-6">Choose what file you want to {type.toLowerCase()}.</p>
       <form
@@ -35,13 +34,18 @@
         />
         <label class="input w-full">
           <span class="label">password</span>
-          <input bind:value={password} type={showPassword ? "text" : "password"} placeholder="password" required/>
+          <input
+            bind:value={password}
+            type={showPassword ? 'text' : 'password'}
+            placeholder="password"
+            required
+          />
           <span class="label"
             ><button
               type="button"
               tabindex="-1"
               on:click={() => (showPassword = !showPassword)}
-              aria-label={showPassword ? "Hide password" : "Show password"}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {#if showPassword}
                 <svg
