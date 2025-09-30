@@ -1,5 +1,7 @@
 node_modules
 bun.lock
+pnpm-lock.yaml
+
 # Output
 .output
 .vercel
