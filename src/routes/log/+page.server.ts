@@ -1,9 +1,39 @@
 import { execSync } from "child_process";
+import admin from "firebase-admin";
+
+const serviceAccount = JSON.parse(
+  import.meta.env.VITE_FIREBASE_SERVICE_ACCOUNT,
+);
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
+
+const db = admin.firestore();
+const changelogRef = db.collection("changelog").doc("data");
 
 export async function load() {
+  const doc = await changelogRef.get();
+  const cachedData = doc.data();
+
+  if (cachedData && Date.now() - cachedData.timestamp < 3600000) {
+    return {
+      commits: cachedData.commits,
+    };
+  }
+
   const log = execSync(
     'git log --first-parent --pretty=format:"%h %ad %s" --date=short',
   ).toString();
+
+  if (!log) {
+    return {
+      commits: [],
+    };
+  }
+
   const commits = log.split("\n").map((line) => {
     const [hash, date, ...messageArr] = line.split(" ");
     const message = messageArr.join(" ");
@@ -46,6 +76,11 @@ export async function load() {
   });
 
   processedCommits.reverse();
+
+  await changelogRef.set({
+    commits: processedCommits,
+    timestamp: Date.now(),
+  });
 
   return {
     commits: processedCommits,
