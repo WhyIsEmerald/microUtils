@@ -31,25 +31,39 @@
                         /></svg
                     >
                 </div>
-                <div
-                    class:timeline-start={i % 2 === 0}
-                    class:md:text-end={i % 2 === 0}
-                    class:timeline-end={i % 2 !== 0}
-                    class="mb-10"
-                >
-                    <time class="font-mono italic text-white"
-                        >{commit.date}</time
-                    >
-                    <div class="text-lg font-black break-words max-w-xs">
-                        {commit.message}
+                {#if i % 2 === 0}
+                    <div class="timeline-start md:text-end mb-10">
+                        <time class="font-mono italic text-white"
+                            >{commit.date}</time
+                        >
+                        <div class="text-lg font-black break-words max-w-xs">
+                            {commit.message}
+                        </div>
+                        <div class="text-sm text-accent">
+                            {commit.hash}
+                            {#if commit.isMerge}<span
+                                    class="badge badge-primary badge-sm"
+                                    >Merge</span
+                                >{/if}
+                        </div>
                     </div>
-                    <div class="text-sm text-accent">
-                        {commit.hash}
-                        {#if commit.isMerge}<span
-                                class="badge badge-primary badge-sm">Merge</span
-                            >{/if}
+                {:else}
+                    <div class="timeline-end mb-10">
+                        <time class="font-mono italic text-white"
+                            >{commit.date}</time
+                        >
+                        <div class="text-lg font-black break-words max-w-xs">
+                            {commit.message}
+                        </div>
+                        <div class="text-sm text-accent">
+                            {commit.hash}
+                            {#if commit.isMerge}<span
+                                    class="badge badge-primary badge-sm"
+                                    >Merge</span
+                                >{/if}
+                        </div>
                     </div>
-                </div>
+                {/if}
                 <hr />
             </li>
         {/each}

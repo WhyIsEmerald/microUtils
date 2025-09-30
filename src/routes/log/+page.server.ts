@@ -14,16 +14,17 @@ export async function load() {
 
   const messageCounts = new Map<string, number>();
   const processedCommits = commits.map((commit) => {
-    const exceptions: Record<string, string> = {
-      "180894a": "Merged frontend",
+    const exceptions: Record<string, { message: string; isMerge: boolean }> = {
+      "180894a": { message: "Merged frontend", isMerge: true },
+      ad213ed: { message: "Humble beginnings", isMerge: false },
     };
 
     let message = commit.message;
     let isMerge = false;
 
     if (exceptions[commit.hash]) {
-      message = exceptions[commit.hash];
-      isMerge = true;
+      message = exceptions[commit.hash].message;
+      isMerge = exceptions[commit.hash].isMerge;
     } else if (message.startsWith("Merge pull request #")) {
       isMerge = true;
       const branch = message.split(" ").pop();
