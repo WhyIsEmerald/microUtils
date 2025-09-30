@@ -1,5 +1,12 @@
 <script lang="ts">
-    export let data;
+    export let data: {
+        commits: {
+            hash: string;
+            date: string;
+            message: string;
+            isMerge: boolean;
+        }[];
+    };
 </script>
 
 <div class="flex flex-col items-center justify-center p-4">
