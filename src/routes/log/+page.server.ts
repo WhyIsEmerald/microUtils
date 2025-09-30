@@ -4,6 +4,7 @@ export async function load() {
   const log = execSync(
     'git log --first-parent --pretty=format:"%h %ad %s" --date=short',
   ).toString();
+  const messageCounts = new Map<string, number>();
   const commits = log.split("\n").map((line) => {
     const exceptions: Record<string, string> = {
       "180894a": "Merged frontend",
@@ -26,6 +27,13 @@ export async function load() {
         }
       }
     }
+
+    const count = messageCounts.get(message) || 0;
+    messageCounts.set(message, count + 1);
+    if (count > 0) {
+      message = `${message} #${count + 1}`;
+    }
+
     return { hash, date, message, isMerge };
   });
 
