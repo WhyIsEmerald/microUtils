@@ -18,7 +18,7 @@ export async function load() {
   const doc = await changelogRef.get();
   const cachedData = doc.data();
 
-  if (cachedData && Date.now() - cachedData.timestamp < 3600000) {
+  if (cachedData && Date.now() - cachedData.timestamp < 86400000) {
     return {
       commits: cachedData.commits,
     };
