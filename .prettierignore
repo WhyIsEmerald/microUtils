@@ -1,0 +1,11 @@
+.svelte-kit
+node_modules
+build
+dist
+.env
+.env.*
+!.env.example
+
+# Ignore files for sensitive data
+private
+secrets

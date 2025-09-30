@@ -6,18 +6,18 @@
    */
 
   function greeting() {
-    const now = new Date();
-    const hours = now.getHours();
+    const now = new Date()
+    const hours = now.getHours()
 
-    let timeBasedGreeting: string;
+    let timeBasedGreeting: string
     if (hours < 12) {
-      timeBasedGreeting = "Good morning";
+      timeBasedGreeting = 'Good morning'
     } else if (hours < 18) {
-      timeBasedGreeting = "Good afternoon";
+      timeBasedGreeting = 'Good afternoon'
     } else {
-      timeBasedGreeting = "Good evening";
+      timeBasedGreeting = 'Good evening'
     }
-    return `${timeBasedGreeting}!`;
+    return `${timeBasedGreeting}!`
   }
 </script>
 

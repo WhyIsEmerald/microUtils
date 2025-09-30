@@ -1,21 +1,19 @@
 <script lang="ts">
-  import Badge from "./Badge.svelte";
+  import Badge from './Badge.svelte'
   export let badgeType:
-    | "utility"
-    | "business"
-    | "math"
-    | "health"
-    | "education"
-    | "finance"
-    | "productivity"
-    | "fun";
-  export let cardTitle: string;
-  export let cardDescription: string;
+    | 'utility'
+    | 'business'
+    | 'math'
+    | 'health'
+    | 'education'
+    | 'finance'
+    | 'productivity'
+    | 'fun'
+  export let cardTitle: string
+  export let cardDescription: string
 </script>
 
-<div
-    class="p-0.5 rounded-lg flex animate-conic-gradient"
->
+<div class="p-0.5 rounded-lg flex animate-conic-gradient">
   <div class="card lg:card-side bg-base-200 w-full shadow-sm h-64">
     <div class="card-body">
       <h2 class="card-title text-3xl font-bold">
@@ -39,7 +37,7 @@
   }
 
   .animate-conic-gradient::before {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     z-index: 0;

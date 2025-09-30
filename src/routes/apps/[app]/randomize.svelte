@@ -1,9 +1,9 @@
 <script lang="ts">
-  let Max: number = 100;
-  let Min: number = 0;
-  let Random: number = 0;
-  $: error = Min > Max ? 'Min cannot be greater than Max.' : null;
-  $: areNumbersLarge = Max > 10000 || Min > 10000 || Random > 10000;
+  let Max: number = 100
+  let Min: number = 0
+  let Random: number = 0
+  $: error = Min > Max ? 'Min cannot be greater than Max.' : null
+  $: areNumbersLarge = Max > 10000 || Min > 10000 || Random > 10000
 </script>
 
 <div class="hero bg-base-200 flex-grow">
@@ -60,7 +60,7 @@
         class="btn btn-primary mt-2"
         disabled={!!error}
         on:click={() => {
-          Random = Math.floor(Math.random() * (Max - Min + 1)) + Min;
+          Random = Math.floor(Math.random() * (Max - Min + 1)) + Min
         }}>Randomize</button
       >
     </div>

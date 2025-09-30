@@ -1,90 +1,90 @@
 <script lang="ts">
-  import TodoList from "$lib/components/TodoList.svelte";
-  import { saveUserTodo, getUserTodo } from "$lib/stores/firebase/db";
-  import { user } from "$lib/stores/firebase/auth";
-  import { page } from "$app/stores";
-  import { get } from "svelte/store";
-  import { onDestroy } from "svelte";
+  import TodoList from '$lib/components/TodoList.svelte'
+  import { saveUserTodo, getUserTodo } from '$lib/stores/firebase/db'
+  import { user } from '$lib/stores/firebase/auth'
+  import { page } from '$app/stores'
+  import { get } from 'svelte/store'
+  import { onDestroy } from 'svelte'
 
-  $: currentUser = $user;
-  $: notSignedIn = !currentUser;
+  $: currentUser = $user
+  $: notSignedIn = !currentUser
 
-  const name = get(page).params.app || "todo";
+  const name = get(page).params.app || 'todo'
 
-  let todos: { text: string; done: boolean }[] = [];
-  let newTodo = "";
-  let loading = true;
-  let lastLoaded = "";
-  let saveTimeout: NodeJS.Timeout;
-  let justLoaded = false; // Prevent saving right after loading
+  let todos: { text: string; done: boolean }[] = []
+  let newTodo = ''
+  let loading = true
+  let lastLoaded = ''
+  let saveTimeout: NodeJS.Timeout
+  let justLoaded = false // Prevent saving right after loading
 
   // Only load todos when user or list name changes
   $: if (currentUser && lastLoaded !== currentUser.uid + name) {
-    lastLoaded = currentUser.uid + name;
-    loadTodos();
+    lastLoaded = currentUser.uid + name
+    loadTodos()
   }
 
   async function loadTodos() {
-    loading = true;
+    loading = true
     try {
-      if (!currentUser) return; // Ensure currentUser is not null before proceeding
-      const res = await getUserTodo(currentUser.uid);
+      if (!currentUser) return // Ensure currentUser is not null before proceeding
+      const res = await getUserTodo(currentUser.uid)
       if (res && res.content) {
-        todos = JSON.parse(res.content);
+        todos = JSON.parse(res.content)
       } else {
-        todos = [];
+        todos = []
       }
     } catch (e) {
-      console.error("Failed to load todos:", e);
-      todos = [];
+      console.error('Failed to load todos:', e)
+      todos = []
     }
-    loading = false;
-    justLoaded = true;
+    loading = false
+    justLoaded = true
     setTimeout(() => {
-      justLoaded = false;
-    }, 100); // Prevent immediate save
+      justLoaded = false
+    }, 100) // Prevent immediate save
   }
 
   // Save todos to Firestore whenever they change (but not while loading or just loaded)
   $: if (currentUser && !loading && !justLoaded) {
-    todos, debounceSave();
+    ;(todos, debounceSave())
   }
 
   function debounceSave() {
-    clearTimeout(saveTimeout);
+    clearTimeout(saveTimeout)
     saveTimeout = setTimeout(async () => {
-      if (!currentUser) return;
+      if (!currentUser) return
       try {
-        await saveUserTodo(currentUser.uid, JSON.stringify(todos));
+        await saveUserTodo(currentUser.uid, JSON.stringify(todos))
       } catch (e) {
-        console.error("Failed to save todos:", e);
+        console.error('Failed to save todos:', e)
       }
-    }, 500);
+    }, 500)
   }
 
   onDestroy(() => {
-    clearTimeout(saveTimeout);
-  });
+    clearTimeout(saveTimeout)
+  })
 
   function addTodo() {
     if (newTodo.trim()) {
-      todos = [...todos, { text: newTodo, done: false }];
-      newTodo = "";
+      todos = [...todos, { text: newTodo, done: false }]
+      newTodo = ''
     }
   }
 
   function toggleTodo(idx: number) {
     todos = todos.map((todo, i) =>
       i === idx ? { ...todo, done: !todo.done } : todo
-    );
+    )
   }
 
   function removeTodo(idx: number) {
-    todos = todos.filter((_, i) => i !== idx);
+    todos = todos.filter((_, i) => i !== idx)
   }
 
   function setNewTodo(val: string) {
-    newTodo = val;
+    newTodo = val
   }
 </script>
 
