@@ -13,23 +13,27 @@
 
 ## 🚀 Getting Started
 
-Follow these steps to set up and run MicroUtils locally:
+1. **Clone the repository:**
 
-1. **Clone the repository**:
-    ```bash
-    git clone https://github.com/emerald-developer/appKit
-    cd appKit
-    ```
+```bash
+git clone https://github.com/emerald-developer/appKit
+cd appKit
+```
 
-2. **Install dependencies**:
-    ```bash
-    npm install
-    ```
+2. **Install dependencies:**
 
-3. **Run the development server**:
-    ```bash
-    npm run dev
-    ```
+```bash
+npm install
+```
+
+3. **Run the development server:**
+
+```bash
+npm run dev
+```
+
+4. **Open your browser:**
+   Visit [http://localhost:5173](http://localhost:5173) (or the port shown in your terminal).
 
 4. **Open your browser**:
     Visit [http://localhost:5173](http://localhost:5173) (or the port shown in your terminal).

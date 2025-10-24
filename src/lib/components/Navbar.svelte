@@ -1,17 +1,17 @@
 <script lang="ts">
-  import { page } from "$app/stores";
-  import { user } from "$lib/stores/firebase/auth";
-  import { onDestroy } from "svelte";
-  let currentUser = null;
+  import { page } from '$app/stores'
+  import { user } from '$lib/stores/firebase/auth'
+  import { onDestroy } from 'svelte'
+  let currentUser = null
 
   // Subscribe to user store for automatic updates and cleanup
-  const unsubscribe = user.subscribe((value) => {
-    currentUser = value;
-  });
+  const unsubscribe = user.subscribe(value => {
+    currentUser = value
+  })
 
   onDestroy(() => {
-    unsubscribe();
-  });
+    unsubscribe()
+  })
 </script>
 
 <div class="navbar bg-base-200 shadow-sm">
@@ -29,23 +29,23 @@
         <li>
           <a
             href="/apps"
-            class={$page.url.pathname === "/apps"
-              ? "active text-amber-500"
-              : ""}>Apps</a
+            class={$page.url.pathname === '/apps'
+              ? 'active text-amber-500'
+              : ''}>Apps</a
           >
         </li>
         <li>
           <a
             href="/about"
-            class={$page.url.pathname === "/about"
-              ? "active text-amber-500"
-              : ""}>About</a
+            class={$page.url.pathname === '/about'
+              ? 'active text-amber-500'
+              : ''}>About</a
           >
         </li>
         <li>
           <a
             href="/log"
-            class={$page.url.pathname === "/log" ? "active text-amber-500" : ""}
+            class={$page.url.pathname === '/log' ? 'active text-amber-500' : ''}
             >Log</a
           >
         </li>
@@ -62,28 +62,28 @@
       <li>
         <a
           href="/"
-          class={$page.url.pathname === "/" ? "active text-amber-500" : ""}
+          class={$page.url.pathname === '/' ? 'active text-amber-500' : ''}
           >Home</a
         >
       </li>
       <li>
         <a
           href="/apps"
-          class={$page.url.pathname === "/apps" ? "active text-amber-500" : ""}
+          class={$page.url.pathname === '/apps' ? 'active text-amber-500' : ''}
           >Apps</a
         >
       </li>
       <li>
         <a
           href="/about"
-          class={$page.url.pathname === "/about" ? "active text-amber-500" : ""}
+          class={$page.url.pathname === '/about' ? 'active text-amber-500' : ''}
           >About</a
         >
       </li>
       <li>
         <a
           href="/log"
-          class={$page.url.pathname === "/log" ? "active text-amber-500" : ""}
+          class={$page.url.pathname === '/log' ? 'active text-amber-500' : ''}
           >Log</a
         >
       </li>
