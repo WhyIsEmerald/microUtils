@@ -35,9 +35,6 @@ npm run dev
 4. **Open your browser:**
    Visit [http://localhost:5173](http://localhost:5173) (or the port shown in your terminal).
 
-4. **Open your browser**:
-    Visit [http://localhost:5173](http://localhost:5173) (or the port shown in your terminal).
-
 ## 🤝 Contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute.
